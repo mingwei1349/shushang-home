@@ -3,6 +3,10 @@
   if (window.__sszAiWidget) return;
   window.__sszAiWidget = true;
 
+  /* 微信内置浏览器无法打开 *.app.workbuddy.link，临时隐藏浮窗避免用户误点 */
+  var isWeixin = /MicroMessenger/i.test(navigator.userAgent);
+  if (isWeixin) return;
+
   var AGENT_URL = "https://6d780514665048a8a9bb30ab27ac3c24.app.workbuddy.link?from=site";
 
   /* 样式 */
