@@ -1,12 +1,11 @@
-/* 数商之家 AI 顾问悬浮窗 —— 在任意页面引入本文件即可 */
+/* 数商之家 AI 顾问悬浮窗 —— 点击跳转到同站 ai.html 聊天页 */
 (function () {
   if (window.__sszAiWidget) return;
   window.__sszAiWidget = true;
 
-  /* 聊天页地址：这里指向已上线的智能体服务（带留言记录后台） */
-  var CHAT_PAGE = "https://6d780514665048a8a9bb30ab27ac3c24.app.workbuddy.link?from=github";
+  // 同站 ai.html，GitHub Pages 域名，微信内可正常打开
+  var CHAT_PAGE = "ai.html";
 
-  /* 样式 */
   var css = [
     ".ssz-ai-btn{position:fixed;bottom:26px;right:26px;z-index:99990;width:58px;height:58px;",
     "border:none;border-radius:50%;cursor:pointer;box-shadow:0 6px 20px rgba(249,115,22,.45);",
@@ -20,36 +19,15 @@
     "font-size:13px;padding:8px 14px;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.25);",
     "white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .3s;}",
     ".ssz-ai-tip.show{opacity:1;}",
-    ".ssz-ai-panel{position:fixed;bottom:98px;right:26px;z-index:99991;width:400px;height:640px;",
-    "max-height:calc(100vh - 120px);max-width:calc(100vw - 32px);border-radius:16px;overflow:hidden;",
-    "box-shadow:0 18px 50px rgba(15,37,71,.35);display:none;flex-direction:column;",
-    "border:1px solid rgba(15,37,71,.12);background:#fff;}",
-    ".ssz-ai-panel.open{display:flex;animation:sszPop .22s ease;}",
-    "@keyframes sszPop{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}",
-    ".ssz-ai-head{background:linear-gradient(135deg,#0f2547,#1d3f75);color:#fff;padding:12px 16px;",
-    "display:flex;align-items:center;gap:10px;flex-shrink:0;}",
-    ".ssz-ai-head b{font-size:15px}",
-    ".ssz-ai-head small{font-size:11px;opacity:.75;display:block;margin-top:2px}",
-    ".ssz-ai-act{background:rgba(255,255,255,.15);border:none;color:#fff;font-size:12px;",
-    "border-radius:8px;padding:5px 10px;cursor:pointer;margin-left:8px;}",
-    ".ssz-ai-act:hover{background:rgba(255,255,255,.3)}",
-    ".ssz-ai-close{margin-left:auto;background:rgba(255,255,255,.15);border:none;color:#fff;",
-    "width:28px;height:28px;border-radius:8px;cursor:pointer;font-size:16px;line-height:1;}",
-    ".ssz-ai-close:hover{background:rgba(255,255,255,.3)}",
-    ".ssz-ai-frame{flex:1;border:none;width:100%;}",
-    "@media(max-width:520px){",
-    ".ssz-ai-panel{bottom:0;right:0;width:100vw;height:100vh;max-height:100vh;border-radius:0;}",
-    ".ssz-ai-head{padding-top:16px}}",
-    ".ssz-ai-backdrop{position:fixed;inset:0;z-index:99989;background:rgba(15,37,71,.35);display:none;}",
-    ".ssz-ai-backdrop.show{display:block}"
+    "@media(max-width:520px){.ssz-ai-btn{bottom:20px;right:18px;width:54px;height:54px;}.ssz-ai-tip{bottom:30px;right:86px;}}"
   ].join("");
 
   var style = document.createElement("style");
   style.textContent = css;
   document.head.appendChild(style);
 
-  /* 悬浮按钮 */
-  var btn = document.createElement("button");
+  var btn = document.createElement("a");
+  btn.href = CHAT_PAGE;
   btn.className = "ssz-ai-btn";
   btn.setAttribute("aria-label", "AI 顾问");
   btn.innerHTML =
@@ -61,48 +39,14 @@
   tip.className = "ssz-ai-tip";
   tip.textContent = "有问题？问 AI 顾问";
 
-  /* 弹出面板 */
-  var backdrop = document.createElement("div");
-  backdrop.className = "ssz-ai-backdrop";
+  btn.addEventListener("mouseenter", function () { tip.classList.add("show"); });
+  btn.addEventListener("mouseleave", function () { tip.classList.remove("show"); });
 
-  var panel = document.createElement("div");
-  panel.className = "ssz-ai-panel";
-  panel.innerHTML =
-    '<div class="ssz-ai-head">' +
-    '<div><b>数商之家 AI 顾问</b><small>数字经济 · 数据要素 · 数据资产</small></div>' +
-    '<button class="ssz-ai-act" title="在新窗口打开">新窗口</button>' +
-    '<button class="ssz-ai-close" aria-label="关闭">×</button></div>' +
-    '<iframe class="ssz-ai-frame" src="' + CHAT_PAGE + '" title="数商之家 AI 顾问"></iframe>';
-
-  function open() {
-    panel.classList.add("open");
-    if (window.innerWidth <= 520) backdrop.classList.add("show");
-    tip.classList.remove("show");
-  }
-  function close() {
-    panel.classList.remove("open");
-    backdrop.classList.remove("show");
-  }
-  btn.addEventListener("click", function () {
-    panel.classList.contains("open") ? close() : open();
-  });
-  panel.querySelector(".ssz-ai-close").addEventListener("click", close);
-  panel.querySelector(".ssz-ai-act").addEventListener("click", function (e) {
-    e.stopPropagation();
-    window.open(CHAT_PAGE, "_blank");
-  });
-  backdrop.addEventListener("click", close);
-
-  /* 首次进入 2 秒后轻提示，只提示一次 */
   setTimeout(function () {
-    if (!panel.classList.contains("open")) {
-      tip.classList.add("show");
-      setTimeout(function () { tip.classList.remove("show"); }, 4000);
-    }
+    tip.classList.add("show");
+    setTimeout(function () { tip.classList.remove("show"); }, 4000);
   }, 2000);
 
-  document.body.appendChild(backdrop);
-  document.body.appendChild(panel);
   document.body.appendChild(btn);
   document.body.appendChild(tip);
 })();
