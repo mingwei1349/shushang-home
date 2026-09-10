@@ -611,6 +611,61 @@ button { font-family: inherit; }
 .cta p { color: #bfd4ee; margin-bottom: 28px; font-size: 16.5px; }
 .cta .hero-actions { justify-content: center; margin-bottom: 0; }
 
+/* ---------- AI 顾问入口卡片 ---------- */
+.ai-entry {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 30px 34px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(120deg, var(--navy-800), var(--navy-600) 55%, var(--blue-500));
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform .22s, box-shadow .22s;
+}
+.ai-entry:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.ai-entry::after {
+  content: "";
+  position: absolute;
+  right: -120px; top: -120px;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 122, 24, .35), transparent 62%);
+}
+.ai-entry > * { position: relative; z-index: 1; }
+.ai-entry-icon {
+  width: 64px; height: 64px;
+  border-radius: 18px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--orange-400), var(--orange-600));
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 20px rgba(232, 99, 10, .34);
+}
+.ai-entry-icon svg { width: 32px; height: 32px; color: #fff; }
+.ai-entry-body { flex: 1; }
+.ai-entry-body h3 { font-size: 21px; margin-bottom: 8px; color: #fff; }
+.ai-entry-body p { font-size: 15px; color: #c5d7ee; max-width: 640px; }
+.ai-entry-cta {
+  flex-shrink: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(255, 255, 255, .14);
+  border: 1px solid rgba(255, 255, 255, .3);
+  padding: 12px 22px;
+  border-radius: 999px;
+  white-space: nowrap;
+  transition: background .2s, border-color .2s;
+}
+.ai-entry:hover .ai-entry-cta { background: var(--orange-500); border-color: var(--orange-500); }
+@media (max-width: 760px) {
+  .ai-entry { flex-direction: column; align-items: flex-start; gap: 18px; padding: 26px; }
+  .ai-entry-cta { align-self: stretch; text-align: center; }
+}
+
 /* ---------- 页脚 ---------- */
 .footer {
   background: var(--navy-900);
