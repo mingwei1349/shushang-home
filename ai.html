@@ -24,21 +24,6 @@
   .ai-head .who small { font-size: 12px; opacity: .7; }
   .ai-head .status { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 12px; opacity: .85; }
   .ai-head .status .dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; }
-  .ai-head .gear { background: rgba(255,255,255,.15); border: none; color: #fff; width: 34px; height: 34px; border-radius: 9px; cursor: pointer; font-size: 16px; }
-  .ai-head .gear:hover { background: rgba(255,255,255,.3); }
-
-  .ai-set {
-    background: #fff; border-bottom: 1px solid var(--line); padding: 12px 16px;
-    display: none; gap: 10px; flex-wrap: wrap; align-items: center;
-    box-shadow: var(--shadow-sm);
-  }
-  .ai-set.show { display: flex; }
-  .ai-set select, .ai-set input {
-    border: 1px solid var(--line-strong); border-radius: 9px; padding: 8px 11px; font-size: 14px; font-family: var(--font);
-  }
-  .ai-set input { flex: 1; min-width: 200px; }
-  .ai-set button { border: none; border-radius: 9px; padding: 8px 16px; background: var(--navy-700); color: #fff; cursor: pointer; font-size: 14px; }
-  .ai-set .hint { width: 100%; font-size: 12px; color: var(--text-3); margin: 0; }
 
   .ai-wrap { max-width: 820px; margin: 0 auto; padding: 18px 16px 140px; }
   .ai-box { min-height: 52vh; display: flex; flex-direction: column; gap: 14px; }
@@ -57,12 +42,6 @@
     white-space: pre-wrap; word-break: break-word;
   }
   .msg.user .bubble { background: linear-gradient(135deg, var(--orange-500), var(--orange-400)); color: #fff; border: none; }
-
-  .typing .bubble { color: var(--text-3); }
-  .typing .bubble i { display: inline-block; width: 6px; height: 6px; margin: 0 1px; border-radius: 50%; background: var(--text-3); animation: blink 1.2s infinite; }
-  .typing .bubble i:nth-child(2) { animation-delay: .2s; }
-  .typing .bubble i:nth-child(3) { animation-delay: .4s; }
-  @keyframes blink { 0%,60%,100%{opacity:.25} 30%{opacity:1} }
 
   .ai-input {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
@@ -99,26 +78,13 @@
     <small>数字经济 · 数据要素 · 数据资产</small>
   </div>
   <div class="status"><span class="dot"></span>在线</div>
-  <button class="gear" id="gear" title="设置 API Key">⚙</button>
-</div>
-
-<div class="ai-set" id="set">
-  <select id="model">
-    <option value="deepseek">DeepSeek（需 API Key，便宜）</option>
-    <option value="gemini">Gemini（Google 免费层，真正免费）</option>
-  </select>
-  <input id="apikey" type="password" placeholder="粘贴您的 API Key（仅保存在本机浏览器）" autocomplete="off">
-  <button id="save">保存</button>
-  <p class="hint" id="sethint">
-    Key 只存在您当前浏览器（localStorage），不会上传到任何服务器，也不会写进网站代码。DeepSeek Key 在 platform.deepseek.com 获取；Gemini 免费 Key 在 aistudio.google.com/apikey 获取（无需信用卡）。
-  </p>
 </div>
 
 <div class="ai-wrap">
   <div class="ai-box" id="box">
     <div class="msg">
       <div class="av">数</div>
-      <div class="bubble">您好，我是「数商之家」AI 顾问 👋\n您可以问我关于数字经济、数据要素、数据资产入表、数商学习路径、明威老师课程等问题。回复「人工」可转接顾问微信。</div>
+      <div class="bubble">您好，我是「数商之家」智能顾问 🤖\n我可以解答数字经济、数据要素、数据资产入表、数商学习路径、数商觉醒、数字IP、明威老师课程等常见问题。试试下面的快捷提问，或直接输入您的问题。</div>
     </div>
   </div>
 </div>
@@ -130,125 +96,130 @@
         <span>什么是数据要素？</span>
         <span>数据资产怎么入表？</span>
         <span>数商学习路径</span>
+        <span>什么是数商觉醒？</span>
         <span>明威老师是谁？</span>
+        <span>怎么联系你们？</span>
       </div>
       <textarea id="input" rows="1" placeholder="输入您的问题，Enter 发送…"></textarea>
     </div>
     <button id="send">发送</button>
   </div>
-  <div class="ai-tip">本顾问由 AI 驱动，回答仅供参考；重要内容以官方政策与明威老师课程为准。</div>
+  <div class="ai-tip">本顾问为网站内置知识问答（无需联网/Key），回答基于数商之家公开内容；深度咨询请加微信 19852697@qq.com。</div>
 </div>
 
 <script>
+/* ============ 数商之家内置知识库（零 Key、纯前端） ============ */
+const KB = [
+  {
+    q: ["数据要素是什么", "什么是数据要素", "数据为什么是要素", "数据要素定义", "数据要素概念"],
+    a: "数据要素，是指能参与社会生产经营、为使用者或所有者带来经济效益的“数据资源”。\n\n传统生产要素是土地、劳动力、资本、技术；2020 年《关于构建更加完善的要素市场化配置体制机制的意见》首次把“数据”列为第五大生产要素。简单说：当数据能被采集、确权、流通、并产生价值时，它就从“副产品”变成了“生产要素”。\n\n想系统了解，建议看《数据要素 30 讲》（入门课）。"
+  },
+  {
+    q: ["数据资产入表", "入表", "怎么入表", "入表流程", "数据资产入账", "数据资产计入报表"],
+    a: "数据资产入表，是指符合资产定义的数据资源，按《企业数据资源相关会计处理暂行规定》确认为无形资产或存货，进入企业财务报表。\n\n基本流程：① 资源盘点与识别；② 合规性与控制权确认；③ 成本归集与计量；④ 列报与披露。常见价值评估方法有三种：成本法、收益法、市场法。\n\n实操建议走“数据资产入表全流程演练”实战课，以模拟企业走完从资源梳理到披露的完整链路。"
+  },
+  {
+    q: ["学习路径", "怎么学", "从哪开始", "零基础学", "学习路线", "课程", "课程体系", "学什么"],
+    a: "数商之家按“人群 + 阶段”组织学习：\n\n【三条人群路径】\n· 企业管理者/决策层：读懂政策影响、数据投入优先级、合规红线（4—6周）\n· 业务/数据/技术岗：数据治理、数据产品、入表协同（8—10周）\n· 个人转型/求职：概念框架、岗位地图、作品集（10—12周）\n\n【四阶段地图】认知建立框架 → 政策读懂规则 → 方法掌握流程 → 实践做出成果。\n\n入门课推荐《数据要素30讲》《政策文件阅读方法》，详见“数商学习”板块。"
+  },
+  {
+    q: ["数商觉醒", "什么是数商", "数商是什么", "数商觉醒是什么", "数据商", "数据商"],
+    a: "数商（Data Quotient）= 数字时代的底层读写能力：你能多大程度上自觉地用数据去理解世界、做判断、解决问题。它不是智商，不是技术，是可训练的认知与习惯。\n\n【数商四维模型】\n· 数据认知：看得懂数据的口径、偏差与局限\n· 数据思维：遇到问题本能想到“用什么数据说清楚”\n· 数据应用：能把数据用进业务流程、推动决策\n· 数据经营：把数据当资产持续治理与运营\n\n【觉醒四阶段】沉睡期 → 感知期 → 实践期 → 内化期。多数人卡在一、二阶段之间。可先做 12 题免费测评定位自己的阶段。"
+  },
+  {
+    q: ["数字ip", "数字IP是什么", "个人ip", "专业人员ip", "打造ip", "个人品牌"],
+    a: "数字IP，是专业人员在数字世界里的可信身份与内容资产。核心理念：内容不是展示聪明，而是持续降低他人的判断成本——从“我知道”到“别人知道我知道”。\n\n落地方式：把你的方法论沉淀成文章、案例、课程等可复用内容，持续输出。觉醒之后“把过程写出来”，就是数字IP的起点。详见“数字IP”板块。"
+  },
+  {
+    q: ["明威老师", "明威是谁", "老师介绍", "主理人", "明威老师是谁", "关于明威"],
+    a: "明威老师是「数商之家」主理人，长期研究数字经济、数据要素与数据资产化，擅长把复杂政策翻译成可执行动作。\n\n· 8 年研究与教学积累，300+ 篇原创观点文章，60+ 场课程与内训，12 套体系化课程\n· 研究领域：数据要素制度、公共数据授权运营、数据资产入表、数据治理、数字IP 等\n· 三个原则：先结构后细节、先场景后技术、讲清楚边界\n\n近期专栏：《数据资产入表的十个现实问题》。课程与活动见“明威老师”页。"
+  },
+  {
+    q: ["公共数据", "公共数据授权运营", "授权运营", "公共数据是什么"],
+    a: "公共数据，是指各级国家机关、法律法规授权的组织在履职中采集的数据。公共数据授权运营，是在保障安全与隐私前提下，通过授权特定主体对公共数据进行开发利用，释放其价值的一种机制。\n\n主流有三种模式，对应不同的地方资源禀赋与治理能力，照搬方案往往水土不服。明威老师有专栏《公共数据授权运营：三种主流模式与适用边界》专门分析。"
+  },
+  {
+    q: ["联系方式", "怎么联系", "加微信", "邮箱", "电话", "课程咨询", "内容合作", "商务合作"],
+    a: "数商之家联系方式：\n· 内容合作（约稿/转载/联合研究）：19852697@qq.com\n· 课程咨询（内训/公开课/定制方案）：13149481331\n· 演讲邀约：talk@shushang.home\n· 工作日 9:30—18:30 回复\n\n也可以直接扫网站页脚/首页的微信二维码，备注「数商之家」添加。"
+  },
+  {
+    q: ["测评", "测试", "评估", "数商测评", "能力画像", "测一测"],
+    a: "数商之家提供 12 题免费自评工具，覆盖认知、思维、应用等维度，完成后输出你的数商阶段画像与推荐学习顺序。\n\n路径：首页点「免费数商测评」，或进入“数商觉醒”板块的测评区。测评结果仅用于学习建议，不做任何能力评级或商业用途。"
+  },
+  {
+    q: ["人工", "真人", "客服", "转人工", "找老师", "咨询"],
+    a: "我是网站内置的智能问答助手，能解答大部分常见问题。如需真人深度咨询（课程定制、企业内训、内容合作等），请加微信 19852697@qq.com 或电话 13149481331，备注「数商之家」，工作日 9:30—18:30 会有回复。"
+  },
+  {
+    q: ["你们是做什么的", "数商之家介绍", "关于数商之家", "网站是干什么的", "什么是数商之家", "你们网站干嘛的", "网站干嘛", "数商之家是做什么的"],
+    a: "数商之家是一个聚焦「数字经济 · 数据要素 · 数据资产」的学习与实践社区。我们做政策科普、产业分析与实操方法论，帮助个人与企业完成“数商觉醒”。\n\n内容板块：行业信息、数字经济、数商学习、数商觉醒、数字IP、明威老师。配套有政策资料库、模板清单、案例库与学习社群。"
+  },
+  {
+    q: ["数字经济", "什么是数字经济", "数字经济是什么"],
+    a: "数字经济，是以数据资源为关键要素、以现代信息网络为重要载体、以数字技术融合应用为驱动力的经济形态。它既包括数字产业化（如软硬件、互联网），也包括产业数字化（传统行业用数据与技术改造升级）。数据要素市场化配置，是数字经济深化发展的核心抓手之一。"
+  }
+];
+
+const KEYWORDS = [
+  { k: ["入表", "报表", "会计", "无形资产"], i: 1 },
+  { k: ["要素", "第五要素"], i: 0 },
+  { k: ["觉醒", "数商"], i: 3 },
+  { k: ["ip", "品牌", "个人ip"], i: 4 },
+  { k: ["明威", "老师"], i: 5 },
+  { k: ["公共数据", "授权运营"], i: 6 },
+  { k: ["联系", "微信", "邮箱", "电话", "合作"], i: 7 },
+  { k: ["测评", "测试", "评估"], i: 8 },
+  { k: ["课程", "学习路径", "怎么学", "学什么"], i: 2 },
+  { k: ["数字经济"], i: 11 },
+  { k: ["人工", "真人", "客服"], i: 9 }
+];
+
+function findAnswer(text) {
+  const t = text.toLowerCase();
+  for (const item of KB) {
+    for (const q of item.q) {
+      if (t.includes(q.toLowerCase())) return item.a;
+    }
+  }
+  for (const kw of KEYWORDS) {
+    if (kw.k.some(x => t.includes(x))) return KB[kw.i].a;
+  }
+  return "这个问题我暂时覆盖不到 🤔 您可以换种说法，或查看对应板块：\n· 数据要素/入表 →「数商学习」\n· 数商觉醒/测评 →「数商觉醒」\n· 课程与合作 → 加微信 19852697@qq.com 或电话 13149481331\n\n也可以直接告诉我您想了解的关键词，比如“数据资产入表”“数商学习路径”。";
+}
+
 const box = document.getElementById("box");
 const input = document.getElementById("input");
 const sendBtn = document.getElementById("send");
 const quick = document.getElementById("quick");
-const gear = document.getElementById("gear");
-const setPanel = document.getElementById("set");
-const modelSel = document.getElementById("model");
-const keyInput = document.getElementById("apikey");
-const saveBtn = document.getElementById("save");
-const setHint = document.getElementById("sethint");
 
-const SYSTEM_PROMPT = "你是「数商之家」的 AI 顾问，一个聚焦数字经济、数据要素、数据资产化的专业助手。" +
-  "你用通俗易懂的中文回答，擅长把复杂政策翻译成人话，把产业趋势拆解成可执行动作。" +
-  "你服务个人与企业用户，介绍数商学习路径、数据资产入表、公共数据授权运营、数字IP打造等主题。" +
-  "当用户表达想找真人时，引导其加微信 19852697@qq.com 或电话 13149481331，备注「数商之家」。" +
-  "回答简洁有结构，适当使用要点。不要编造不确定的政策细节。";
-
-// 读取本地保存的 Key
-let cfg = {
-  model: localStorage.getItem("ssz_model") || "deepseek",
-  key: localStorage.getItem("ssz_key") || ""
-};
-modelSel.value = cfg.model;
-keyInput.value = cfg.key;
-
-gear.addEventListener("click", () => setPanel.classList.toggle("show"));
-saveBtn.addEventListener("click", () => {
-  cfg.model = modelSel.value;
-  cfg.key = keyInput.value.trim();
-  localStorage.setItem("ssz_model", cfg.model);
-  localStorage.setItem("ssz_key", cfg.key);
-  setPanel.classList.remove("show");
-  if (!cfg.key) { alert("已保存，但未填写 Key，仍无法对话。"); }
-  else { alert("已保存到本机浏览器，现在可以对话了。"); }
-});
-
-let history = [{ role: "system", content: SYSTEM_PROMPT }];
-
-function addMsg(role, text, typing) {
+function addMsg(role, text) {
   const el = document.createElement("div");
-  el.className = "msg " + role + (typing ? " typing" : "");
-  el.innerHTML = '<div class="av">' + (role === "user" ? "我" : "数") + '</div>' +
-    '<div class="bubble">' + (typing ? "<i></i><i></i><i></i>" : escapeHtml(text)) + '</div>';
+  el.className = "msg " + role;
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+  bubble.style.whiteSpace = "pre-wrap";
+  bubble.textContent = text;
+  const av = document.createElement("div");
+  av.className = "av";
+  av.textContent = (role === "user" ? "我" : "数");
+  el.appendChild(av);
+  el.appendChild(bubble);
   box.appendChild(el);
   box.scrollTop = box.scrollHeight;
   return el;
 }
-function escapeHtml(s) {
-  return String(s).replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
-}
 
-async function ask(text) {
+function ask(text) {
   if (!text.trim()) return;
-  if (!cfg.key) {
-    addMsg("ai", "请先点右上角 ⚙ 填入您的 API Key 再开始对话。");
-    setPanel.classList.add("show");
-    return;
-  }
   addMsg("user", text);
-  history.push({ role: "user", content: text });
   input.value = ""; input.style.height = "auto";
   sendBtn.disabled = true;
-  const loading = addMsg("ai", "", true);
-
-  try {
-    const reply = await callAPI(text);
-    history.push({ role: "assistant", content: reply });
-    loading.classList.remove("typing");
-    loading.querySelector(".bubble").textContent = reply;
-  } catch (e) {
-    loading.classList.remove("typing");
-    loading.querySelector(".bubble").textContent = "调用失败：" + e.message + "。请检查 Key 是否正确，或点 ⚙ 切换模型。";
-  } finally {
+  const loading = addMsg("ai", "正在思考…");
+  setTimeout(() => {
+    loading.querySelector(".bubble").textContent = findAnswer(text);
     sendBtn.disabled = false;
     box.scrollTop = box.scrollHeight;
-  }
-}
-
-async function callAPI(userText) {
-  if (cfg.model === "gemini") {
-    // Gemini：免费层，key 放在查询参数
-    const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + encodeURIComponent(cfg.key);
-    const contents = history.filter(m => m.role !== "system").map(m => ({
-      role: m.role === "assistant" ? "model" : "user",
-      parts: [{ text: m.content }]
-    }));
-    const sys = history.find(m => m.role === "system");
-    const body = { contents };
-    if (sys) body.systemInstruction = { parts: [{ text: sys.content }] };
-    const resp = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body)
-    });
-    if (!resp.ok) { const t = await resp.text(); throw new Error("Gemini " + resp.status + " " + t.slice(0, 120)); }
-    const data = await resp.json();
-    return data.candidates[0].content.parts.map(p => p.text).join("");
-  } else {
-    // DeepSeek：OpenAI 兼容格式
-    const url = "https://api.deepseek.com/chat/completions";
-    const resp = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: "Bearer " + cfg.key },
-      body: JSON.stringify({ model: "deepseek-chat", messages: history, temperature: 0.7, stream: false })
-    });
-    if (!resp.ok) { const t = await resp.text(); throw new Error("DeepSeek " + resp.status + " " + t.slice(0, 120)); }
-    const data = await resp.json();
-    return (data.choices && data.choices[0].message.content) || "（暂无回复）";
-  }
+  }, 280);
 }
 
 sendBtn.addEventListener("click", () => ask(input.value));
